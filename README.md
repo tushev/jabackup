@@ -5,11 +5,11 @@ Do not forget to make both files executable:
 `chmod +x ja*.sh`
 
 ## jabackup.sh
-```
+
 USAGE: jabackup.sh [OPTIONS] PATH
 
 PATH is a path to Joomla! root (where index.php & configuration.php are located)
-
+```
  Options:
   -f, --filename    BASENAME for archive (may include path). Extension will be added automatically (!).
   -z, --gzip2       Compress files with gzip (default)
@@ -18,12 +18,12 @@ PATH is a path to Joomla! root (where index.php & configuration.php are located)
   -q, --quiet       Quiet (no output) [not implemented yet]
   -h, --help        Display this help and exit
       --version     Output version information and exit
-
-Example: ./jabackup.sh /var/www/joomla
-This will create backup of Joomla! from /var/www/joomla as backup.tar.gz in current directory
-
-Example: ./jabackup.sh -f /home/mysite -J /var/www/joomla
-This will create backup of Joomla! from /var/www/joomla as /home/mysite.tar.xz
 ```
+Example: **./jabackup.sh /var/www/joomla**
+ will create backup of Joomla! from /var/www/joomla as backup.tar.gz in current directory
+
+**./jabackup.sh -f /home/mysite -J /var/www/joomla**
+ will create backup of Joomla! from /var/www/joomla as /home/mysite.tar.xz
+
 ## jarestore.sh
 will be added in the next release
