@@ -55,7 +55,14 @@ function mainScript() {
 if [ ! -d "${args[0]}" ]; then
 	die "Directory ${args[0]} does not exist"
 fi
-backup_to_dir=$(pwd)
+
+if [[ "$base_name" == *\/* ]] 
+then
+	backup_name=$base_name
+else
+	backup_name="`pwd`/$base_name"
+fi
+
 cd ${args[0]}
 
 q=\'
@@ -87,8 +94,8 @@ esac
 
 echo "Starting mysqldump"
 mysqldump -h $dbhost -u $dbuser$pass_string $dbname | gzip > db_jabackup_$RAND_SUFFIX.sql.gz
-echo "Creating $backup_to_dir/backup.tar.$ext from ${args[0]}; follow symlinks"
-tar -c${algo}hf $backup_to_dir/backup.tar.$ext .
+echo "Creating $backup_name.tar.$ext from ${args[0]}; follow symlinks"
+tar -c${algo}hf $backup_name.tar.$ext .
 
 
 echo "Done."
@@ -107,7 +114,7 @@ usage() {
 PATH is a path to Joomla! root (where index.php & configuration.php are located)
 
  Options:
-  -f, --filename	BASENAME for archive (may include path). Extension will be added automatically (!).
+  -b, --basename	BASENAME for archive (may include path). Extension will be added automatically (!).
   -z, --gzip2    	Compress files with gzip (default)
   -j, --bzip2    	Compress files with bzip2
   -J, --xz		    Compress files with xz 
@@ -167,7 +174,7 @@ while [[ $1 = -?* ]]; do
   case $1 in
     -h|--help) usage >&2; safeExit ;;
     --version) echo "$(basename $0) ${version}"; safeExit ;;
-	-f|--filename) shift; base_name=${1} ;;
+	-b|--basename) shift; base_name=${1} ;;
     -z|--gzip) algo="z" ;;
     -j|--bzip2) algo="j" ;;
     -J|--xz) algo="J" ;;
